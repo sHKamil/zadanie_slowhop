@@ -19,12 +19,20 @@ class CalendarEventController extends AbstractController
     #[Route('/', name: 'app_calendar_event')]
     public function index(): JsonResponse
     {
-        $icalParser = new IcalParser;
         $url = 'https://slowhop.com/icalendar-export/api-v1/21c0ed902d012461d28605cdb2a8b7a2.ics';
+        $events = $this->getEventsFromUrl($url);
+
+        return $this->json($events);
+    }
+
+    public function getEventsFromUrl(string $url)
+    {
+        $icalParser = new IcalParser;
         $this->httpFile->saveFile($url);
         $events = $icalParser->getEvents();
         $events = $icalParser->truncateData($events);
 
-        return $this->json($events);
+        return $events;
     }
+
 }
