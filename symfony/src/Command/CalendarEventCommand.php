@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Controller\CalendarEventController;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -13,10 +14,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CalendarEventCommand extends Command
 {
     private $calendarEventController;
+    private $logger;
 
-
-    public function __construct(CalendarEventController $calendarEventController, string $name = null) {
+    public function __construct(CalendarEventController $calendarEventController,LoggerInterface $logger , string $name = null) {
         $this->calendarEventController = $calendarEventController;
+        $this->logger = $logger;
         parent::__construct($name);
     }
 
@@ -29,6 +31,7 @@ class CalendarEventCommand extends Command
     {
         $url = $input->getArgument(name: 'url');
         $events = json_encode($this->calendarEventController->getEventsFromUrl($url), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $this->logger->info('New data downloaded from: ' . $url);
         
         $output->writeln($events);
 
