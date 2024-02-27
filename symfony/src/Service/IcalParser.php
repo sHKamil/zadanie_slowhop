@@ -7,13 +7,8 @@ use ICal\ICal;
 
 class IcalParser
 {
-
-    public function __construct() {
-
-    }
-
-    public function getEvents() {
-        $ical = new ICal('file.ics');
+    public function getEvents(string $filePath) {
+        $ical = new ICal($filePath);
         $events = $ical->events();
 
         return $events;

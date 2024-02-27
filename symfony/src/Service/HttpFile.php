@@ -11,9 +11,9 @@ class HttpFile
 
     }
 
-    public function saveFile($url) {
+    public function saveFile($url, $savePath) {
         $response = $this->httpClient->request('GET', $url);
-        $fileHandler = fopen('./file.ics', 'w');
+        $fileHandler = fopen($savePath, 'w');
         fwrite($fileHandler, $response->getContent());
 
         return $response->getStatusCode();
