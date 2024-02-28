@@ -11,7 +11,7 @@ class HttpFile
 
     }
 
-    public function saveFile($url, $savePath) {
+    public function saveFile(string $url, string $savePath) {
         $response = $this->httpClient->request('GET', $url);
         $fileHandler = fopen($savePath, 'w');
         fwrite($fileHandler, $response->getContent());

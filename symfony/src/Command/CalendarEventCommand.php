@@ -30,11 +30,14 @@ class CalendarEventCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int 
     {
         $url = $input->getArgument(name: 'url');
-        $events = json_encode($this->calendarEventController->getEventsFromUrl($url), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $response = $this->calendarEventController->getEventsFromUrl($url);
+        $events = json_encode($response['events'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         $this->logger->info('New data downloaded from: ' . $url);
-        
-        $output->writeln($events);
 
+        $output->writeln($events);
+        if($response['link']) $output->writeln('Link do S3: ' . $response['link']);
+
+        
         return Command::SUCCESS;
     }
 

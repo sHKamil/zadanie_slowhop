@@ -13,3 +13,6 @@
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+
+/public/calendar/*
+!/public/calendar/file.ics
